@@ -73,15 +73,17 @@
             background-color: #1a1d24;
             border: 1px solid #2a2e39;
             color: #ffffff;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 600;
+            line-height: 1.4;
         }
 
         .card-back {
             background-color: #38bdf8;
             color: #0f1115;
-            font-size: 26px;
+            font-size: 22px;
             font-weight: 800;
+            line-height: 1.4;
             transform: rotateY(180deg);
         }
 
@@ -117,7 +119,7 @@
 <body>
 
     <h1>Frans Examen Flashcards</h1>
-    <div class="progress" id="progress-text">1 / 10</div>
+    <div class="progress" id="progress-text">1 / 30</div>
 
     <div class="scene" onclick="flipCard()">
         <div class="card" id="flashcard">
@@ -136,18 +138,59 @@
     </div>
 
     <script>
-        // ADD YOUR FLASHCARDS HERE
         const flashcards = [
+            // --- GRAMMAR: PRONOMS & ÊTRE/AVOIR ---
+            { front: "Quels sont les pronoms sujets ? (Subject Pronouns)", back: "Je, Tu, Il/Elle/On, Nous, Vous, Ils/Elles" },
             { front: "Être (Je...)", back: "suis" },
+            { front: "Être (Tu...)", back: "es" },
+            { front: "Être (Il/Elle/On...)", back: "est" },
             { front: "Être (Nous...)", back: "sommes" },
+            { front: "Être (Vous...)", back: "êtes" },
+            { front: "Être (Ils/Elles...)", back: "sont" },
+            { front: "Avoir (Je...)", back: "ai" },
             { front: "Avoir (Tu...)", back: "as" },
-            { front: "Avoir (Ils...)", back: "ont" },
-            { front: "Manger (Nous...)", back: "mangeons" },
-            { front: "Commencer (Nous...)", back: "commençons" },
+            { front: "Avoir (Il/Elle/On...)", back: "a" },
+            { front: "Avoir (Nous...)", back: "avons" },
+            { front: "Avoir (Vous...)", back: "avez" },
+            { front: "Avoir (Ils/Elles...)", back: "ont" },
+
+            // --- GRAMMAR: -ER, -CER, -GER VERBS ---
+            { front: "Manger (Nous...)", back: "mangeons (extra 'e' to keep soft G sound)" },
+            { front: "Commencer (Nous...)", back: "commençons (c becomes ç to keep soft S sound)" },
+            { front: "Jouer (Je...)", back: "joue" },
+            { front: "Jouer (Nous...)", back: "jouons" },
+
+            // --- SPELLING & PRONUNCIATION ---
+            { front: "Pronunciation: C before 'e' or 'i'", back: "Sounds like 'S' (e.g., merci)" },
+            { front: "Pronunciation: C before 'a', 'o', 'u'", back: "Sounds like 'K' (e.g., café)" },
+            { front: "Pronunciation: G before 'e' or 'i'", back: "Sounds like 'J' (e.g., manger)" },
+            { front: "Pronunciation: G before 'a', 'o', 'u'", back: "Sounds like 'G' (e.g., gare)" },
+
+            // --- VOCAB: CLASSROOM EXPRESSIONS ---
             { front: "How do you say...?", back: "Comment dit-on...?" },
+            { front: "Can you repeat that?", back: "Pouvez-vous répéter?" },
+            { front: "I don't understand.", back: "Je ne comprends pas." },
+            { front: "I have a question.", back: "J'ai une question." },
+            { front: "What does [word] mean?", back: "Que signifie [word]?" },
+
+            // --- VOCAB: SE PRÉSENTER ---
+            { front: "My name is...", back: "Je m'appelle..." },
             { front: "I am 15 years old.", back: "J'ai 15 ans." },
             { front: "I live in Asse.", back: "J'habite à Asse." },
-            { front: "I like to play football.", back: "J'aime jouer au foot." }
+            { front: "Nice to meet you.", back: "Enchanté(e)." },
+            { front: "This is my friend (male/female).", back: "Voici mon ami / mon amie." },
+
+            // --- VOCAB: LES LOISIRS ---
+            { front: "What do you do in your free time?", back: "Qu'est-ce que tu fais pendant ton temps libre?" },
+            { front: "I like to play football.", back: "J'aime jouer au foot." },
+            { front: "I watch movies.", back: "Je regarde des films." },
+            { front: "I listen to music.", back: "J'écoute de la musique." },
+
+            // --- CHIFFRES ---
+            { front: "10", back: "dix" },
+            { front: "50", back: "cinquante" },
+            { front: "100", back: "cent" },
+            { front: "1000", back: "mille" }
         ];
 
         let currentIndex = 0;
@@ -159,10 +202,8 @@
         const nextBtn = document.getElementById('next-btn');
 
         function updateCard() {
-            // Reset flip
             card.classList.remove('is-flipped');
             
-            // Small delay to allow the card to unflip before changing text
             setTimeout(() => {
                 frontText.innerText = flashcards[currentIndex].front;
                 backText.innerText = flashcards[currentIndex].back;
@@ -192,7 +233,6 @@
             }
         }
 
-        // Initialize
         updateCard();
     </script>
 </body>
