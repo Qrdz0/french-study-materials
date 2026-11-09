@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frans Examen Flashcards</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+
+        body {
+            background-color: #0f1115;
+            color: #e2e8f0;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #38bdf8;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .progress {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* 3D Flip Card Container */
+        .scene {
+            width: 320px;
+            height: 420px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-front {
+            background-color: #1a1d24;
+            border: 1px solid #2a2e39;
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .card-back {
+            background-color: #38bdf8;
+            color: #0f1115;
+            font-size: 26px;
+            font-weight: 800;
+            transform: rotateY(180deg);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: #1a1d24;
+            color: #e2e8f0;
+            border: 1px solid #2a2e39;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background-color: #2a2e39;
+            border-color: #38bdf8;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Frans Examen Flashcards</h1>
+    <div class="progress" id="progress-text">1 / 10</div>
+
+    <div class="scene" onclick="flipCard()">
+        <div class="card" id="flashcard">
+            <div class="card-face card-front" id="card-front">
+                Click to start
+            </div>
+            <div class="card-face card-back" id="card-back">
+                Answer
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prev-btn" onclick="prevCard()">Previous</button>
+        <button id="next-btn" onclick="nextCard()">Next</button>
+    </div>
+
+    <script>
+        // ADD YOUR FLASHCARDS HERE
+        const flashcards = [
+            { front: "Être (Je...)", back: "suis" },
+            { front: "Être (Nous...)", back: "sommes" },
+            { front: "Avoir (Tu...)", back: "as" },
+            { front: "Avoir (Ils...)", back: "ont" },
+            { front: "Manger (Nous...)", back: "mangeons" },
+            { front: "Commencer (Nous...)", back: "commençons" },
+            { front: "How do you say...?", back: "Comment dit-on...?" },
+            { front: "I am 15 years old.", back: "J'ai 15 ans." },
+            { front: "I live in Asse.", back: "J'habite à Asse." },
+            { front: "I like to play football.", back: "J'aime jouer au foot." }
+        ];
+
+        let currentIndex = 0;
+        const card = document.getElementById('flashcard');
+        const frontText = document.getElementById('card-front');
+        const backText = document.getElementById('card-back');
+        const progressText = document.getElementById('progress-text');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function updateCard() {
+            // Reset flip
+            card.classList.remove('is-flipped');
+            
+            // Small delay to allow the card to unflip before changing text
+            setTimeout(() => {
+                frontText.innerText = flashcards[currentIndex].front;
+                backText.innerText = flashcards[currentIndex].back;
+            }, 150);
+
+            progressText.innerText = `${currentIndex + 1} / ${flashcards.length}`;
+            
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === flashcards.length - 1;
+        }
+
+        function flipCard() {
+            card.classList.toggle('is-flipped');
+        }
+
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                updateCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCard();
+            }
+        }
+
+        // Initialize
+        updateCard();
+    </script>
+</body>
+</html>
