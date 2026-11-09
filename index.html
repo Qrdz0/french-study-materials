@@ -4,50 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frans Examen Flashcards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+        :root {
+            --bg: #09090b;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #818cf8;
+            --accent-glow: rgba(129, 140, 248, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
-            background-color: #0f1115;
-            color: #e2e8f0;
-            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(129, 140, 248, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.08), transparent 25%);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
             overflow: hidden;
         }
 
-        h1 {
-            color: #38bdf8;
-            font-size: 24px;
-            margin-bottom: 20px;
+        header {
             text-align: center;
+            margin-bottom: 40px;
+            z-index: 10;
         }
 
-        .progress {
-            color: #94a3b8;
-            font-size: 14px;
-            margin-bottom: 20px;
+        h1 {
+            font-weight: 600;
+            font-size: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .progress-container {
+            width: 240px;
+            height: 4px;
+            background: var(--card-border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-glow);
         }
 
         /* 3D Flip Card Container */
         .scene {
-            width: 320px;
-            height: 420px;
-            perspective: 1000px;
+            width: 340px;
+            height: 440px;
+            perspective: 1200px;
             cursor: pointer;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            z-index: 10;
         }
 
         .card {
             width: 100%;
             height: 100%;
             position: relative;
-            transition: transform 0.6s;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
             transform-style: preserve-3d;
+        }
+
+        .scene:hover .card:not(.is-flipped) {
+            transform: translateY(-5px);
         }
 
         .card.is-flipped {
@@ -59,67 +102,89 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 16px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 30px;
+            padding: 40px;
             text-align: center;
-            box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .card-front {
-            background-color: #1a1d24;
-            border: 1px solid #2a2e39;
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: 600;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--text-main);
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
             line-height: 1.4;
         }
 
         .card-back {
-            background-color: #38bdf8;
-            color: #0f1115;
-            font-size: 22px;
-            font-weight: 800;
+            background: var(--text-main);
+            color: var(--bg);
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 600;
             line-height: 1.4;
             transform: rotateY(180deg);
+            border: 1px solid white;
         }
 
         .controls {
             display: flex;
-            gap: 15px;
+            gap: 20px;
+            z-index: 10;
         }
 
         button {
-            padding: 12px 24px;
-            background-color: #1a1d24;
-            color: #e2e8f0;
-            border: 1px solid #2a2e39;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 16px;
-            font-weight: 600;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            font-size: 20px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
         }
 
-        button:hover {
-            background-color: #2a2e39;
-            border-color: #38bdf8;
+        button:hover:not(:disabled) {
+            background: var(--card-border);
+            transform: scale(1.05);
+        }
+
+        button:active:not(:disabled) {
+            transform: scale(0.95);
         }
 
         button:disabled {
-            opacity: 0.5;
+            opacity: 0.2;
             cursor: not-allowed;
+        }
+
+        .kbd-hint {
+            margin-top: 30px;
+            font-size: 13px;
+            color: var(--text-muted);
+            opacity: 0.6;
         }
     </style>
 </head>
 <body>
 
-    <h1>Frans Examen Flashcards</h1>
-    <div class="progress" id="progress-text">1 / 30</div>
+    <header>
+        <h1>Frans Examen</h1>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+    </header>
 
     <div class="scene" onclick="flipCard()">
         <div class="card" id="flashcard">
@@ -133,14 +198,16 @@
     </div>
 
     <div class="controls">
-        <button id="prev-btn" onclick="prevCard()">Previous</button>
-        <button id="next-btn" onclick="nextCard()">Next</button>
+        <button id="prev-btn" onclick="prevCard()">&#8592;</button>
+        <button id="next-btn" onclick="nextCard()">&#8594;</button>
     </div>
 
+    <div class="kbd-hint">Use Arrow Keys to Navigate</div>
+
     <script>
+        // Keep the same flashcard array from before
         const flashcards = [
-            // --- GRAMMAR: PRONOMS & ÊTRE/AVOIR ---
-            { front: "Quels sont les pronoms sujets ? (Subject Pronouns)", back: "Je, Tu, Il/Elle/On, Nous, Vous, Ils/Elles" },
+            { front: "Quels sont les pronoms sujets ?", back: "Je, Tu, Il/Elle/On, Nous, Vous, Ils/Elles" },
             { front: "Être (Je...)", back: "suis" },
             { front: "Être (Tu...)", back: "es" },
             { front: "Être (Il/Elle/On...)", back: "est" },
@@ -153,51 +220,36 @@
             { front: "Avoir (Nous...)", back: "avons" },
             { front: "Avoir (Vous...)", back: "avez" },
             { front: "Avoir (Ils/Elles...)", back: "ont" },
-
-            // --- GRAMMAR: -ER, -CER, -GER VERBS ---
-            { front: "Manger (Nous...)", back: "mangeons (extra 'e' to keep soft G sound)" },
-            { front: "Commencer (Nous...)", back: "commençons (c becomes ç to keep soft S sound)" },
+            { front: "Manger (Nous...)", back: "mangeons (extra 'e')" },
+            { front: "Commencer (Nous...)", back: "commençons (c becomes ç)" },
             { front: "Jouer (Je...)", back: "joue" },
             { front: "Jouer (Nous...)", back: "jouons" },
-
-            // --- SPELLING & PRONUNCIATION ---
-            { front: "Pronunciation: C before 'e' or 'i'", back: "Sounds like 'S' (e.g., merci)" },
-            { front: "Pronunciation: C before 'a', 'o', 'u'", back: "Sounds like 'K' (e.g., café)" },
-            { front: "Pronunciation: G before 'e' or 'i'", back: "Sounds like 'J' (e.g., manger)" },
-            { front: "Pronunciation: G before 'a', 'o', 'u'", back: "Sounds like 'G' (e.g., gare)" },
-
-            // --- VOCAB: CLASSROOM EXPRESSIONS ---
+            { front: "Pronunciation: C before 'e' or 'i'", back: "Sounds like 'S' (merci)" },
+            { front: "Pronunciation: C before 'a', 'o', 'u'", back: "Sounds like 'K' (café)" },
+            { front: "Pronunciation: G before 'e' or 'i'", back: "Sounds like 'J' (manger)" },
+            { front: "Pronunciation: G before 'a', 'o', 'u'", back: "Sounds like 'G' (gare)" },
             { front: "How do you say...?", back: "Comment dit-on...?" },
             { front: "Can you repeat that?", back: "Pouvez-vous répéter?" },
             { front: "I don't understand.", back: "Je ne comprends pas." },
             { front: "I have a question.", back: "J'ai une question." },
             { front: "What does [word] mean?", back: "Que signifie [word]?" },
-
-            // --- VOCAB: SE PRÉSENTER ---
             { front: "My name is...", back: "Je m'appelle..." },
             { front: "I am 15 years old.", back: "J'ai 15 ans." },
             { front: "I live in Asse.", back: "J'habite à Asse." },
             { front: "Nice to meet you.", back: "Enchanté(e)." },
-            { front: "This is my friend (male/female).", back: "Voici mon ami / mon amie." },
-
-            // --- VOCAB: LES LOISIRS ---
+            { front: "This is my friend.", back: "Voici mon ami / mon amie." },
             { front: "What do you do in your free time?", back: "Qu'est-ce que tu fais pendant ton temps libre?" },
             { front: "I like to play football.", back: "J'aime jouer au foot." },
             { front: "I watch movies.", back: "Je regarde des films." },
             { front: "I listen to music.", back: "J'écoute de la musique." },
-
-            // --- CHIFFRES ---
-            { front: "10", back: "dix" },
-            { front: "50", back: "cinquante" },
-            { front: "100", back: "cent" },
-            { front: "1000", back: "mille" }
+            { front: "10, 50, 100, 1000", back: "dix, cinquante, cent, mille" }
         ];
 
         let currentIndex = 0;
         const card = document.getElementById('flashcard');
         const frontText = document.getElementById('card-front');
         const backText = document.getElementById('card-back');
-        const progressText = document.getElementById('progress-text');
+        const progressBar = document.getElementById('progress-bar');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
 
@@ -209,7 +261,9 @@
                 backText.innerText = flashcards[currentIndex].back;
             }, 150);
 
-            progressText.innerText = `${currentIndex + 1} / ${flashcards.length}`;
+            // Update Progress Bar
+            const progressPercent = ((currentIndex + 1) / flashcards.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
             
             prevBtn.disabled = currentIndex === 0;
             nextBtn.disabled = currentIndex === flashcards.length - 1;
@@ -233,6 +287,17 @@
             }
         }
 
+        // Add Keyboard Support (Arrow Keys)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === 'ArrowLeft') prevCard();
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                flipCard();
+            }
+        });
+
+        // Initialize
         updateCard();
     </script>
 </body>
